@@ -347,6 +347,7 @@ namespace MoodCharacters.EditorTools
                 {
                     character = (GameObject)PrefabUtility.InstantiatePrefab(models[i]);
                     displayName = Pretty(models[i].name);
+                    character.transform.localScale = Vector3.one * ScaleFor(displayName);
                 }
                 else
                 {
@@ -404,6 +405,16 @@ namespace MoodCharacters.EditorTools
                 result.Add(mood);
             }
             return result;
+        }
+
+        private static float ScaleFor(string characterName)
+        {
+            switch (characterName.ToLowerInvariant())
+            {
+                case "remy": return 0.5f;
+                case "amy": return 1.25f;
+                default: return 1f;
+            }
         }
 
         private static Vector3 DivideScale(Vector3 a, Vector3 b)
