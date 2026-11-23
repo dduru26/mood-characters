@@ -36,7 +36,7 @@ namespace MoodCharacters
             characters.RemoveAll(c => c == null);
             if (characters.Count == 0)
             {
-                characters.AddRange(FindObjectsByType<MoodCharacter>(FindObjectsSortMode.None));
+                characters.AddRange(FindObjectsByType<MoodCharacter>());
                 characters.Sort((a, b) => a.transform.position.x.CompareTo(b.transform.position.x));
             }
         }

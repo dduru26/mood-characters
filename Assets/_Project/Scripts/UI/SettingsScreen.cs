@@ -76,8 +76,8 @@ namespace MoodCharacters
             if (statusText != null)
             {
                 statusText.text = audioManager.IsMuted
-                    ? "Sound is muted"
-                    : "Master " + Mathf.RoundToInt(audioManager.MasterVolume * 100f) + "%";
+                    ? "SOUND IS MUTED"
+                    : "MASTER " + Mathf.RoundToInt(audioManager.MasterVolume * 100f) + "%";
             }
         }
     }

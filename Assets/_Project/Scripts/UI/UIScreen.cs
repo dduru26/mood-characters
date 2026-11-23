@@ -98,7 +98,7 @@ namespace MoodCharacters
             {
                 time += Time.unscaledDeltaTime;
                 float t = Mathf.Clamp01(time / duration);
-                float eased = 1f - Mathf.Pow(1f - t, 3f);
+                float eased = 1f - Mathf.Pow(1f - t, 5f);
                 group.alpha = Mathf.Lerp(fromAlpha, toAlpha, eased);
                 rect.anchoredPosition = Vector2.LerpUnclamped(fromPos, toPos, eased);
                 float s = Mathf.Lerp(fromScale, toScale, eased);

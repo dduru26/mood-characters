@@ -9,13 +9,14 @@ namespace MoodCharacters
     {
         private static readonly Color[] MoodColors =
         {
-            new Color(0.75f, 0.75f, 0.78f),
+            new Color(0.85f, 0.85f, 0.88f),
             new Color(1f, 0.8f, 0.25f),
-            new Color(0.92f, 0.3f, 0.28f),
-            new Color(0.35f, 0.55f, 0.95f)
+            new Color(1f, 0.23f, 0.07f),
+            new Color(0.35f, 0.55f, 1f)
         };
 
         [SerializeField] private TMP_Text characterNameText;
+        [SerializeField] private TMP_Text indexText;
         [SerializeField] private TMP_Text moodText;
         [SerializeField] private TMP_Text animationStateText;
         [SerializeField] private Image moodBadge;
@@ -23,7 +24,10 @@ namespace MoodCharacters
 
         [Tooltip("Mood button backgrounds in order: Neutral, Happy, Angry, Sad.")]
         [SerializeField] private Image[] moodButtonImages = new Image[4];
+        [SerializeField] private TMP_Text[] moodButtonLabels = new TMP_Text[4];
         [SerializeField] private Color unselectedButtonColor = new Color(1f, 1f, 1f, 0.35f);
+        [SerializeField] private Color selectedLabelColor = new Color(0.06f, 0.06f, 0.08f);
+        [SerializeField] private Color unselectedLabelColor = Color.white;
 
         private string lastStateLabel;
 
@@ -43,7 +47,7 @@ namespace MoodCharacters
                 List<string> names = new List<string>();
                 foreach (MoodCharacter character in gm.Characters)
                 {
-                    names.Add(character.DisplayName);
+                    names.Add(character.DisplayName.ToUpperInvariant());
                 }
                 characterDropdown.ClearOptions();
                 characterDropdown.AddOptions(names);
@@ -75,7 +79,7 @@ namespace MoodCharacters
             if (label != lastStateLabel)
             {
                 lastStateLabel = label;
-                animationStateText.text = "Animation: " + label;
+                animationStateText.text = "STATE / " + label.ToUpperInvariant();
             }
         }
 
@@ -103,12 +107,17 @@ namespace MoodCharacters
 
             if (characterNameText != null)
             {
-                characterNameText.text = active.DisplayName;
+                characterNameText.text = active.DisplayName.ToUpperInvariant();
+            }
+
+            if (indexText != null)
+            {
+                indexText.text = "[" + (gm.ActiveIndex + 1).ToString("00") + "/" + gm.Characters.Count.ToString("00") + "]";
             }
 
             if (moodText != null)
             {
-                moodText.text = "Mood: " + active.CurrentMood;
+                moodText.text = "MOOD / " + active.CurrentMood.ToString().ToUpperInvariant();
                 moodText.color = moodColor;
             }
 
@@ -124,9 +133,14 @@ namespace MoodCharacters
 
             for (int i = 0; i < moodButtonImages.Length; i++)
             {
+                bool selected = i == moodIndex;
                 if (moodButtonImages[i] != null)
                 {
-                    moodButtonImages[i].color = i == moodIndex ? MoodColors[i] : unselectedButtonColor;
+                    moodButtonImages[i].color = selected ? MoodColors[i] : unselectedButtonColor;
+                }
+                if (i < moodButtonLabels.Length && moodButtonLabels[i] != null)
+                {
+                    moodButtonLabels[i].color = selected ? selectedLabelColor : unselectedLabelColor;
                 }
             }
         }
